@@ -1,11 +1,14 @@
 #include <LiquidCrystal.h>
+#include <VirtualWire.h>
 
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
-const int helmentWereBtn = 6, bikeMotor = 7;
+const int bikeMotor = 7;
+const int dataPin = 13;
 
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+String data;
 
-bool checkHelmentWere();
+
 void readyStartBike();
 void stopBike();
 
@@ -13,7 +16,6 @@ void setup()
 {
   lcd.begin(16, 2);
 
-  pinMode(helmentWereBtn, INPUT);
   pinMode(bikeMotor,OUTPUT);
 }
 
@@ -24,7 +26,8 @@ void loop()
   lcd.print("hello, biker!");
   lcd.setCursor(0, 1);
 
-  if (checkHelmentWere())
+  readData();
+  if (data=="1")
   {
     readyStartBike();
   }
@@ -34,11 +37,6 @@ void loop()
     stopBike();
   }
   delay(1000);
-}
-
-bool checkHelmentWere()
-{
-  return digitalRead(helmentWereBtn);
 }
 
 void readyStartBike()
@@ -51,4 +49,15 @@ void stopBike()
 {
   lcd.print("helmet please!");
   digitalWrite(bikeMotor,LOW);
+}
+
+void readData()
+{
+    uint8_t buf[VW_MAX_MESSAGE_LEN];
+    uint8_t buflen = VW_MAX_MESSAGE_LEN;
+
+    if (vw_get_message(buf, &buflen)) // Non-blocking
+    {
+      data = (char *)buf;
+    }
 }
