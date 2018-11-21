@@ -1,6 +1,7 @@
 #include <VirtualWire.h>
 
 const int ATAD =12;
+const int helment = 8;
 
 char* data;
 
@@ -11,6 +12,7 @@ void setup()
     vw_set_ptt_inverted(true);
     vw_set_tx_pin(12);
     vw_setup(2000);
+    pinMode(helment,INPUT);
 }
 
 void sendData()
@@ -33,4 +35,9 @@ void loop()
     sendData()
 
     delay(100);
+}
+
+bool isHelmentWere()
+{
+    return digitalRead(helment);
 }
