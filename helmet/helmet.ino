@@ -13,6 +13,8 @@ void setup()
     vw_set_tx_pin(12);
     vw_setup(2000);
     pinMode(helment,INPUT);
+    data = "-1";
+    sendData();
 }
 
 void sendData()

@@ -8,15 +8,20 @@ const int dataPin = 13;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 String data;
 
-
 void readyStartBike();
 void stopBike();
 
 void setup()
 {
   lcd.begin(16, 2);
+  vw_set_ptt_inverted(true);
+  vw_set_rx_pin(dataPin);
+  vw_setup(2000);
+  vw_rx_start();
+  pinMode(bikeMotor, OUTPUT);
 
-  pinMode(bikeMotor,OUTPUT);
+  lcd.print("Connecting..");
+  readData();
 }
 
 void loop()
@@ -27,7 +32,7 @@ void loop()
   lcd.setCursor(0, 1);
 
   readData();
-  if (data=="1")
+  if (data == "1")
   {
     readyStartBike();
   }
@@ -42,22 +47,26 @@ void loop()
 void readyStartBike()
 {
   lcd.print("lets go");
-  digitalWrite(bikeMotor,HIGH);
+  digitalWrite(bikeMotor, HIGH);
 }
 
 void stopBike()
 {
   lcd.print("helmet please!");
-  digitalWrite(bikeMotor,LOW);
+  digitalWrite(bikeMotor, LOW);
 }
 
 void readData()
 {
+  while (true)
+  {
     uint8_t buf[VW_MAX_MESSAGE_LEN];
     uint8_t buflen = VW_MAX_MESSAGE_LEN;
 
     if (vw_get_message(buf, &buflen)) // Non-blocking
     {
       data = (char *)buf;
+      break;
     }
+  }
 }
