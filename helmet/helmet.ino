@@ -1,7 +1,7 @@
 #include <VirtualWire.h>
 
-const int ATAD =12;
-const int helment = 8;
+const int ATAD =12; //rf
+const int helment = 8; //btn
 
 char* data;
 
@@ -9,19 +9,25 @@ bool isHelmentWere();
 
 void setup()
 {
+    Serial.begin(9600);
+
+    Serial.print("Sending");
     vw_set_ptt_inverted(true);
-    vw_set_tx_pin(12);
+    vw_set_tx_pin(ATAD);
     vw_setup(2000);
     pinMode(helment,INPUT);
     data = "-1";
     sendData();
+
+    Serial.print("Sent");
 }
 
 void sendData()
 {
+    Serial.println(data);
     vw_send((uint8_t *)data, strlen(data));
     vw_wait_tx();
-    delay(2000);
+    delay(500);
 }
 
 void loop()
@@ -34,7 +40,7 @@ void loop()
     {
         data="0";
     }
-    sendData()
+    sendData();
 
     delay(100);
 }
