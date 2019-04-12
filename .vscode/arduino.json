@@ -1,5 +1,0 @@
-{
-    "board": "arduino:avr:uno",
-    "sketch": "helmet/helmet.ino",
-    "port": "COM5"
-}
