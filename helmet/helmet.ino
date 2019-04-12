@@ -1,9 +1,10 @@
 #include <VirtualWire.h>
 
-const int ATAD =12; //rf
+const int ATAD = 12;   //rf
 const int helment = 8; //btn
+const int alcohol = 7;
 
-char* data;
+char *data;
 
 bool isHelmentWere();
 
@@ -15,7 +16,8 @@ void setup()
     vw_set_ptt_inverted(true);
     vw_set_tx_pin(ATAD);
     vw_setup(2000);
-    pinMode(helment,INPUT);
+    pinMode(helment, INPUT);
+    pinMode(alcohol, INPUT);
     data = "-1";
     sendData();
 
@@ -32,13 +34,13 @@ void sendData()
 
 void loop()
 {
-    if(isHelmentWere())
+    if (isHelmentWere() && !isAlcoholic())
     {
-        data="1";
+        data = "1";
     }
     else
     {
-        data="0";
+        data = "0";
     }
     sendData();
 
@@ -48,4 +50,9 @@ void loop()
 bool isHelmentWere()
 {
     return digitalRead(helment);
+}
+
+bool isAlcoholic()
+{
+    return digitalRead(alcohol) == HIGH ? true : false;
 }
