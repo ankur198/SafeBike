@@ -4,8 +4,8 @@
 
 #define AIO_SERVER "io.adafruit.com"
 #define AIO_SERVERPORT 1883 // use 8883 for SSL
-#define AIO_USERNAME "ankurIot"
-#define AIO_KEY "af05d105714b4dfcb999248e0b3b7dce"
+#define AIO_USERNAME "pawangoyal725"
+#define AIO_KEY "e2e231f28fe545458013e0306bc95bba"
 
 class Mqtt
 {
@@ -62,7 +62,7 @@ class Mqtt
         else
         {
             accident.publish(100);
-            delay(500);
+            delay(10000);
             accident.publish(0);
 
             Serial.println(F("OK!"));
